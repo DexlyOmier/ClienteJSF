@@ -1,0 +1,50 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>MUSIC BAND</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
+            <p:growl id="growl-sticky" for="sticky-key" showDetail="true" sticky="true" />
+            <div class="card" id="card2">
+                <div class="ui-fluid formgrid grid">
+                    <div class="field col">
+                        <p:outputLabel for="bandName" value="Band Name"/>
+                        <p:inputText id="bandName" value="#{musicBandController.newMusicBand.bandName}"/>
+                    </div>
+                    <div class="field col">
+                        <p:outputLabel for="BandCountry" value="Country"/>
+                        <p:inputText id="BandCountry" value="#{musicBandController.newMusicBand.country}"/>
+                    </div>
+                </div>
+            </div>
+            <h:commandButton action="#{musicBandController.createNewMusicBand()}" value="Registrar" update="growl"></h:commandButton>
+
+            <h1>Music Band List</h1>
+
+            <p:dataTable id="bands" var="band" value="#{musicBandController.musicBandList}" rowKey="#{band.bandId}"
+                         selection="#{musicBandController.selectedMusicBand}" selectionMode="single">
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{band.bandId}" />
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{band.bandName}" />
+                </p:column>
+                <p:column headerText="Category">
+                    <h:outputText value="#{band.country}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:contextMenu for="bands">
+                <p:menuitem value="Delete" update="bandName ,BandCountry, bands, growl"
+                            action="#{musicBandController.deleteMusicBand()}"/>
+                <p:menuitem value="Update" update="bandName ,BandCountry, bands, growl"
+                            action="#{musicBandController.updateMusicBand()}"/>
+            </p:contextMenu>
+        </h:form>
+    </h:body>
+</f:view>
